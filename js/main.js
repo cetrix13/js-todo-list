@@ -1,19 +1,28 @@
-var tasks = {
+let tasks = {
     list: [
         {title: 'First Task', body:'Go shopping', isCompleted: false},
         {title: 'Second Task', body:'Wash dishes', isCompleted: false},
     ],
 };
 
-new Vue({
+let vm = new Vue({
     el:'#app',
-    data: () => tasks,
+    data: () => {
+        return (localStorage.list)
+        ? tasks = { list: JSON.parse(localStorage.getItem('list')) }
+        : tasks;
+    },
+    watch: {
+        list: () => {
+          localStorage.setItem('list', JSON.stringify(tasks.list));
+        }
+    },
     methods: {
         addTask: () => {
             const title = document.getElementById('title').value;
             const body = document.getElementById('body').value;
 
-            tasks.list.push({ title, body });
+            tasks.list.push({ title, body, isCompleted: false });
         },
         editTask: (task) => {
             const title = prompt("Enter new title of the task, leave blank if not changed") || task.title;
@@ -31,7 +40,7 @@ new Vue({
         },
         completeTask: (task) => {
             task.isCompleted = ! task.isCompleted;
-        }
+        },
     },
     computed: {
         orderedTasks: () => {
@@ -39,5 +48,6 @@ new Vue({
                 return (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0);
             });
         },
-    }
+    },
+
 })
