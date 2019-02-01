@@ -1,21 +1,27 @@
 let tasks = {
     list: [
-        {title: 'First Task', body:'Go shopping', isCompleted: false},
-        {title: 'Second Task', body:'Wash dishes', isCompleted: false},
+        {title: 'Einkaufen', body:'Ich muss heute einkaufen gehen', isCompleted: false},
+        {title: 'Ausraümen', body:'Ich muss morgen Geschirr spülen', isCompleted: false},
     ],
 };
 
-let vm = new Vue({
+new Vue({
     el:'#app',
     data: () => {
         return (localStorage.list)
-        ? tasks = { list: JSON.parse(localStorage.getItem('list')) }
-        : tasks;
+            ? tasks = { list: JSON.parse(localStorage.getItem('list')) }
+            : tasks;
     },
     watch: {
         list: () => {
-          localStorage.setItem('list', JSON.stringify(tasks.list));
-        }
+            localStorage.setItem('list', JSON.stringify(tasks.list));
+        },
+        title: () => {
+            localStorage.setItem('list', JSON.stringify(tasks.list));
+        },
+        body: () => {
+            localStorage.setItem('list', JSON.stringify(tasks.list));
+        },
     },
     methods: {
         addTask: () => {
@@ -25,8 +31,8 @@ let vm = new Vue({
             tasks.list.push({ title, body, isCompleted: false });
         },
         editTask: (task) => {
-            const title = prompt("Enter new title of the task, leave blank if not changed") || task.title;
-            const body = prompt("Enter new description of the task, leave blank if not changed") || task.title;
+            const title = prompt('Enter new title of the task, leave blank if not changed') || task.title;
+            const body = prompt('Enter new description of the task, leave blank if not changed') || task.body;
 
             tasks.list.forEach((el) => {
                 if (el.title == task.title) {
@@ -51,4 +57,4 @@ let vm = new Vue({
         },
     },
 
-})
+});
