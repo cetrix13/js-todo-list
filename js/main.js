@@ -26,6 +26,9 @@ new Vue({
                 }
             });
         },
+        deleteTask: (index) => {
+            tasks.list.splice(index, 1);
+        },
         completeTask: (task) => {
             task.isCompleted = ! task.isCompleted;
         }
