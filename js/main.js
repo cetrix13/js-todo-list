@@ -40,6 +40,7 @@ let vm = new Vue({
         },
         completeTask: (task) => {
             task.isCompleted = ! task.isCompleted;
+            localStorage.setItem('list', JSON.stringify(tasks.list));
         },
     },
     computed: {
