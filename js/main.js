@@ -14,6 +14,17 @@ new Vue({
             const body = document.getElementById('body').value;
 
             tasks.list.push({ title, body });
+        },
+        editTask: (task) => {
+            const title = prompt("Enter new title of the task, leave blank if not changed") || task.title;
+            const body = prompt("Enter new description of the task, leave blank if not changed") || task.title;
+
+            tasks.list.forEach((el) => {
+                if (el.title == task.title) {
+                    el.title = title;
+                    el.body = body;
+                }
+            });
         }
     },
     computed: {
