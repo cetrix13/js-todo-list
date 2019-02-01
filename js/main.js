@@ -1,7 +1,7 @@
 var tasks = {
     list: [
-        {title: 'First Task', body:'Go shopping'},
-        {title: 'Second Task', body:'Wash dishes'},
+        {title: 'First Task', body:'Go shopping', isCompleted: false},
+        {title: 'Second Task', body:'Wash dishes', isCompleted: false},
     ],
 };
 
@@ -25,6 +25,9 @@ new Vue({
                     el.body = body;
                 }
             });
+        },
+        completeTask: (task) => {
+            task.isCompleted = ! task.isCompleted;
         }
     },
     computed: {
@@ -32,6 +35,6 @@ new Vue({
             return tasks.list.sort((a,b) => {
                 return (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0);
             });
-        }
+        },
     }
 })
