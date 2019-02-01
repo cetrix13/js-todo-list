@@ -15,5 +15,12 @@ new Vue({
 
             tasks.list.push({ title, body });
         }
+    },
+    computed: {
+        orderedTasks: () => {
+            return tasks.list.sort((a,b) => {
+                return (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0);
+            });
+        }
     }
 })
