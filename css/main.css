@@ -8,6 +8,9 @@ li {
     margin-bottom: 1rem;
 }
 
+[v-cloak] > * { display:none }
+[v-cloak]::before { content: "loading…" }
+
 @media only screen and (min-width: 35em) {
     .completed label {
         text-decoration: line-through;

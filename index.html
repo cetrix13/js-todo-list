@@ -23,6 +23,7 @@
                   <h1 class="title is-uppercase has-text-weight-semibold">My tasks for today</h1>
                   <h2 class="subtitle is-italic">A simple to-do list developed with JS and Vue.js</h2>
                   <li
+                     v-cloak
                      v-for="(task, index) in orderedTasks"
                      v-bind:class="{ completed: task.isCompleted }"
                   >
