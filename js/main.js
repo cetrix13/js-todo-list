@@ -12,23 +12,17 @@ new Vue({
             ? tasks = { list: JSON.parse(localStorage.getItem('list')) }
             : tasks;
     },
-    watch: {
-        list: () => {
-            localStorage.setItem('list', JSON.stringify(tasks.list));
-        },
-        title: () => {
-            localStorage.setItem('list', JSON.stringify(tasks.list));
-        },
-        body: () => {
-            localStorage.setItem('list', JSON.stringify(tasks.list));
-        },
+    updated: () => {
+         localStorage.setItem('list', JSON.stringify(tasks.list));
     },
     methods: {
         addTask: () => {
-            const title = document.getElementById('title').value;
-            const body = document.getElementById('body').value;
+            const title = document.getElementById('title');
+            const body = document.getElementById('body');
 
-            tasks.list.push({ title, body, isCompleted: false });
+            tasks.list.push({ title: title.value, body: body.value, isCompleted: false });
+            title.value = '';
+            body.value = '';
         },
         editTask: (task) => {
             const title = prompt('Enter new title of the task, leave blank if not changed') || task.title;
