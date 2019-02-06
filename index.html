@@ -1,74 +1,75 @@
 <!doctype html>
 <html class="no-js" lang="en">
-   <head>
-      <meta charset="utf-8">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
-      <title>ToDo list</title>
-      <meta name="description" content="ToDo list">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <link rel="apple-touch-icon" href="icon.png">
-      <link rel="stylesheet" href="css/bulma.css">
-      <link rel="stylesheet" href="css/main.css">
-   </head>
-   <body>
-      <!--[if lte IE 9]>
-      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-      <![endif]-->
-      <!-- Add your site or application content here -->
-      <div id="app" class="container is-fluid">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>ToDo list</title>
+    <meta name="description" content="ToDo list">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="stylesheet" href="css/bulma.css">
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+    <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+    <!-- Add your site or application content here -->
+    <div id="app" class="container is-fluid">
       <div class="columns">
-         <div class="column is-8 is-offset-2">
-            <section class="section">
-               <ul class="list-group">
-                  <h1 class="title is-uppercase has-text-weight-semibold">My tasks for today</h1>
-                  <h2 class="subtitle is-italic">A simple to-do list developed with JS and Vue.js</h2>
-                  <li
-                     v-cloak
-                     v-for="(task, index) in orderedTasks"
-                     v-bind:class="{ completed: task.isCompleted }"
-                  >
-                     <div class="notification is-warning">
-                        <button class="delete" @click="deleteTask(index)"></button>
-                        <label class="checkbox" >
-                        <input type="checkbox" @click="completeTask(task)" v-model="task.isCompleted">
-                        <span class="is-uppercase has-text-weight-semibold">{{task.title}}</span> >>
-                        <span>{{task.body}}
-                        </label>
-                        <a class="is-pulled-right" @click="editTask(task)">✍️ Edit</a>
-                     </div>
-                  </li>
-               </ul>
-               <hr />
-               <div class="field">
+        <div class="column is-8 is-offset-2">
+          <section class="section">
+            <h1 class="title is-uppercase has-text-weight-semibold">My tasks for today</h1>
+            <h2 class="subtitle is-italic">A simple to-do list developed with JS and Vue.js</h2>
+            <span v-if="orderedTasks.length == 0">There aren't active tasks for today</span>
+            <ul class="list-group">
+              <li
+                v-cloak
+                v-for="(task, index) in orderedTasks"
+                v-bind:class="{ completed: task.isCompleted }"
+                >
+                <div class="notification is-warning">
+                  <button class="delete" @click="deleteTask(index)"></button>
+                  <label class="checkbox">
+                    <input type="checkbox" @click="completeTask(task)" v-model="task.isCompleted">
+                    <span class="is-uppercase has-text-weight-semibold">{{task.title}}</span> >>
+                    <span>{{task.body}}
+                    </label>
+                    <a class="is-pulled-right" @click="editTask(task)">✍️ Edit</a>
+                  </div>
+                </li>
+              </ul>
+              <hr />
+              <form @submit.prevent="addTask">
+                <div class="field">
                   <label class="label">Task title:</label>
                   <div class="control">
-                     <input class="input" id ="title" type="text" placeholder="Enter title of the task">
+                    <input class="input" v-model="title" id="title" type="text" placeholder="Enter title of the task">
                   </div>
-               </div>
-               <div class="field">
+                </div>
+                <div class="field">
                   <label class="label">Task description:</label>
                   <div class="control">
-                     <textarea class="textarea" id="body" placeholder="Short description of the task"></textarea>
+                    <textarea class="textarea" v-model="body" id="body" placeholder="Short description of the task"></textarea>
                   </div>
-               </div
-                  <div class="field">
-                     <div class="field-body">
-                        <div class="field">
-                           <div class="control">
-                              <button class="button is-warning is-medium is-pulled-right has-text-weight-semibold"
-                              @click.prevent="addTask"
-                              >
-                              Add task
-                              </button>
-                           </div>
-                        </div>
-                     </div>
+                </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <div class="control">
+                        <button type="submit" class="button is-warning is-medium is-pulled-right has-text-weight-semibold"
+                        :disabled="!isValidForm"
+                        >
+                        Add task
+                        </button>
+                      </div>
+                    </div>
                   </div>
-            </section>
+              </form>
+              </section>
             </div>
-         </div>
-      </div>
-      <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
-      <script src="js/main.js"></script>
-   </body>
-</html>
+          </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+        <script src="js/main.js"></script>
+      </body>
+    </html>

@@ -1,54 +1,61 @@
-let tasks = {
-    list: [
-        {title: 'Einkaufen', body:'Ich muss heute einkaufen gehen', isCompleted: false},
-        {title: 'Ausraümen', body:'Ich muss morgen Geschirr spülen', isCompleted: false},
-    ],
-};
+let list = [
+    {title: 'Einkaufen', body:'Ich muss heute einkaufen gehen', isCompleted: false},
+    {title: 'Ausräumen', body:'Ich muss morgen Geschirr spülen', isCompleted: false},
+    {title: 'Studieren', body:'Ich muss ein Buch lesen', isCompleted: false},
+];
+
+if (!window.localStorage.list) {
+    window.localStorage.setItem('list', JSON.stringify(list));
+}
 
 new Vue({
     el:'#app',
-    data: () => {
-        return (localStorage.list)
-            ? tasks = { list: JSON.parse(localStorage.getItem('list')) }
-            : tasks;
+    data: {
+        list: JSON.parse(window.localStorage.getItem('list')),
+        title: '',
+        body: '',
     },
-    updated: () => {
-         localStorage.setItem('list', JSON.stringify(tasks.list));
+    watch: {
+        list: {
+            handler: function() {
+                window.localStorage.setItem('list', JSON.stringify(this.list));
+            },
+            deep: true
+        }
     },
     methods: {
-        addTask: () => {
-            const title = document.getElementById('title');
-            const body = document.getElementById('body');
-
-            tasks.list.push({ title: title.value, body: body.value, isCompleted: false });
-            title.value = '';
-            body.value = '';
+        addTask: function() {
+            this.list.push({ title: this.title, body: this.body, isCompleted: false });
+            this.title = '';
+            this.body = '';
         },
-        editTask: (task) => {
+        editTask: function(task) {
             const title = prompt('Enter new title of the task, leave blank if not changed') || task.title;
             const body = prompt('Enter new description of the task, leave blank if not changed') || task.body;
 
-            tasks.list.forEach((el) => {
+            this.list.forEach((el) => {
                 if (el.title == task.title) {
                     el.title = title;
                     el.body = body;
                 }
             });
         },
-        deleteTask: (index) => {
-            tasks.list.splice(index, 1);
+        deleteTask: function(index) {
+            this.list.splice(index, 1);
         },
-        completeTask: (task) => {
+        completeTask: function(task) {
             task.isCompleted = ! task.isCompleted;
-            localStorage.setItem('list', JSON.stringify(tasks.list));
+            localStorage.setItem('list', JSON.stringify(this.list));
         },
     },
     computed: {
-        orderedTasks: () => {
-            return tasks.list.sort((a,b) => {
+        orderedTasks: function() {
+            return this.list.sort((a,b) => {
                 return (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0);
             });
         },
+        isValidForm: function() {
+            return this.title && this.body;
+        }
     },
-
 });
